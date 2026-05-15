@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Seedance 2.0 Fast — Generador de Video</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Seedance 2.0 Fast</h1>
+      <p class="muted">App local para generar videos vía kie.ai</p>
+    </header>
+
+    <main>
+      <form id="gen-form">
+        <section class="card">
+          <label for="prompt">
+            Prompt
+            <span class="counter"><span id="prompt-count">0</span> / 20000</span>
+          </label>
+          <textarea
+            id="prompt"
+            name="prompt"
+            rows="4"
+            minlength="3"
+            maxlength="20000"
+            placeholder="Describe el video que quieres generar…"
+            required
+          ></textarea>
+        </section>
+
+        <section class="card grid">
+          <div>
+            <label for="resolution">Resolución</label>
+            <select id="resolution" name="resolution">
+              <option value="720p" selected>720p</option>
+              <option value="480p">480p (más barato)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="aspect_ratio">Aspect ratio</label>
+            <select id="aspect_ratio" name="aspect_ratio">
+              <option value="16:9" selected>16:9</option>
+              <option value="9:16">9:16</option>
+              <option value="1:1">1:1</option>
+              <option value="4:3">4:3</option>
+              <option value="3:4">3:4</option>
+              <option value="21:9">21:9</option>
+              <option value="adaptive">adaptive</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="duration">
+              Duración: <span id="duration-val">5</span>s
+            </label>
+            <input
+              id="duration"
+              name="duration"
+              type="range"
+              min="4"
+              max="15"
+              value="5"
+              step="1"
+            />
+          </div>
+
+          <div class="checks">
+            <label class="check">
+              <input type="checkbox" id="generate_audio" checked />
+              Generar audio
+            </label>
+            <label class="check">
+              <input type="checkbox" id="web_search" />
+              Web search
+            </label>
+            <label class="check">
+              <input type="checkbox" id="nsfw_checker" />
+              NSFW checker
+            </label>
+          </div>
+        </section>
+
+        <details class="card">
+          <summary>Referencias (opcional)</summary>
+          <p class="hint">
+            Solo URLs públicas (jpeg/png/webp/mp4/mp3, etc.). No combines
+            <code>first_frame_url</code> / <code>last_frame_url</code> con las
+            listas de referencias.
+          </p>
+
+          <div class="grid">
+            <div class="single-frame" data-target="first_frame_url" data-accept="image/*">
+              <label for="first_frame_url">First frame</label>
+              <input id="first_frame_url" type="url" placeholder="URL o arrastra imagen" />
+              <div class="dropzone" tabindex="0">
+                <span>Arrastra imagen o <button type="button" class="link pick">elige archivo</button></span>
+              </div>
+            </div>
+            <div class="single-frame" data-target="last_frame_url" data-accept="image/*">
+              <label for="last_frame_url">Last frame</label>
+              <input id="last_frame_url" type="url" placeholder="URL o arrastra imagen" />
+              <div class="dropzone" tabindex="0">
+                <span>Arrastra imagen o <button type="button" class="link pick">elige archivo</button></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ref-list" data-name="reference_image_urls" data-max="9" data-accept="image/*">
+            <label>Reference images (máx 9)</label>
+            <div class="ref-items"></div>
+            <div class="dropzone multi" tabindex="0">
+              <span>Arrastra imágenes aquí o <button type="button" class="link pick">elige archivos</button></span>
+            </div>
+            <button type="button" class="add-ref">+ agregar URL manual</button>
+          </div>
+
+          <div class="ref-list" data-name="reference_video_urls" data-max="3" data-accept="video/*">
+            <label>Reference videos (máx 3)</label>
+            <div class="ref-items"></div>
+            <div class="dropzone multi" tabindex="0">
+              <span>Arrastra videos aquí o <button type="button" class="link pick">elige archivos</button></span>
+            </div>
+            <button type="button" class="add-ref">+ agregar URL manual</button>
+          </div>
+
+          <div class="ref-list" data-name="reference_audio_urls" data-max="3" data-accept="audio/*">
+            <label>Reference audios (máx 3)</label>
+            <div class="ref-items"></div>
+            <div class="dropzone multi" tabindex="0">
+              <span>Arrastra audios aquí o <button type="button" class="link pick">elige archivos</button></span>
+            </div>
+            <button type="button" class="add-ref">+ agregar URL manual</button>
+          </div>
+        </details>
+
+        <button type="submit" id="submit-btn" class="primary">
+          Generar video
+        </button>
+      </form>
+
+      <section id="result" class="card hidden">
+        <h2>Resultado</h2>
+        <div id="status-line"></div>
+        <div id="task-meta" class="muted"></div>
+        <video id="video" controls class="hidden"></video>
+        <div id="video-actions" class="hidden">
+          <a id="download-link" download>Descargar video</a>
+        </div>
+        <div id="error" class="error hidden"></div>
+      </section>
+
+      <section id="history" class="card hidden">
+        <h2>Historial reciente</h2>
+        <ul id="history-list"></ul>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
