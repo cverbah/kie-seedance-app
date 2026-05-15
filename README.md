@@ -1,10 +1,20 @@
 # Kie.ai Seedance 2.0 Fast — App Local
 
-App local (Python + HTML/JS) para generar videos con el modelo **Seedance 2.0 Fast** de [kie.ai](https://kie.ai) desde una interfaz web cómoda en `localhost`.
+> **Proyecto personal — uso local.** Esta es una herramienta que armé para mí, pensada para correr **únicamente en `localhost`** en mi propio computador y hacer experimentos con el modelo **Seedance 2.0 Fast** de [kie.ai](https://kie.ai). No está pensada (por ahora) para desplegarse en producción, exponerse a internet ni usarse en multiusuario. El código está público como referencia, pero úsalo bajo tu propio criterio.
 
-- Backend en Python con FastAPI que actúa como proxy seguro a `api.kie.ai`.
+App local (Python + HTML/JS) para generar videos con Seedance 2.0 Fast desde una interfaz web cómoda en `localhost`.
+
+- Backend en Python con FastAPI que actúa como proxy local a `api.kie.ai`.
 - Frontend HTML/JS vanilla servido por el mismo backend (sin build step).
 - La API key vive solo en `.env` — nunca se expone al navegador ni se commitea.
+
+### Alcance actual
+
+- ✅ Generación de video con todos los parámetros del modelo (resolución, aspect ratio, duración, audio, NSFW, web search).
+- ✅ Drag & drop de imágenes/videos/audios (se suben al endpoint de upload de kie.ai y se obtiene una URL pública temporal).
+- ✅ Polling automático del estado de cada tarea y visor de video integrado.
+- ✅ Historial de las últimas 10 generaciones en `localStorage`.
+- ❌ No hay auth, deployment, multiusuario, base de datos ni nada de eso — y por ahora no es el objetivo.
 
 ---
 
